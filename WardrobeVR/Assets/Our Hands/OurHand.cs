@@ -12,6 +12,8 @@ public class OurHand : MonoBehaviour
     public InputDeviceCharacteristics ourControllerCharacteristics;
 
     private InputDevice ourDevice;
+    private Animator ourHandAmimator;
+
     void Start()
     {
         InitializeOurHand();
@@ -28,6 +30,7 @@ public class OurHand : MonoBehaviour
         {
             ourDevice = devices[0];
             GameObject newHand = Instantiate(ourHandPrefab, transform);
+            ourHandAmimator = newHand.GetComponent<Animator>(); //get the Animator component from newHand.
         }
 
 
@@ -52,19 +55,23 @@ public class OurHand : MonoBehaviour
         if (ourDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
         {
             //Debug.Log("Trigger Value = " + triggerValue);
+            ourHandAmimator.SetFloat("Trigger", triggerValue);
         }
         else
         {
             //Debug.Log("Trigger not Active");
+            ourHandAmimator.SetFloat("Trigger",0);
         }
 
         if (ourDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue))
         {
             //Debug.Log("Grip Value = " + gripValue);
+            ourHandAmimator.SetFloat("Grip", gripValue);
         }
         else
         {
             //Debug.Log("Grip not Active");
+            ourHandAmimator.SetFloat("Grip", 0);
         }
     }
     
